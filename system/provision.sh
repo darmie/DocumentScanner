@@ -38,3 +38,13 @@ ln -s /vagrant/system/nginx/server.conf /etc/nginx/sites-available/default
 # Create upstart job for Node.js app and Nginx
 cp /vagrant/system/upstart/app.conf /etc/init/app.conf
 cp /vagrant/system/upstart/nginx.conf /etc/init/nginx.conf    
+
+# Install python packager
+sudo apt-get install -y python-pip 
+
+
+# Install opencv python package
+cd ~
+cd /vagrant
+pip install --upgrade pip
+pip install opencv-contrib-python
