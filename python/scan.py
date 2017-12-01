@@ -4,7 +4,7 @@
 # import the necessary packages
 from pyimagesearch.transform import four_point_transform
 from pyimagesearch import imutils
-from skimage.filters import threshold_adaptive
+from skimage.filter import threshold_adaptive
 import numpy as np
 import argparse
 import cv2
@@ -18,6 +18,8 @@ args = vars(ap.parse_args())
 # load the image and compute the ratio of the old height
 # to the new height, clone it, and resize it
 image = cv2.imread(args["image"])
+_imageName = args["image"].split("/")
+imageName = _imageName[len(_imageName) - 1]
 ratio = image.shape[0] / 500.0
 orig = image.copy()
 image = imutils.resize(image, height = 500)
@@ -73,5 +75,5 @@ warped = warped.astype("uint8") * 255
 #print "STEP 3: Apply perspective transform"
 #cv2.imshow("Original", imutils.resize(orig, height = 650))
 #cv2.imshow("Scanned", imutils.resize(warped, height = 650))
-cv2.imwrite('public/images/page.jpg', warped)
+cv2.imwrite('public/images/'+imageName, warped)
 #cv2.waitKey(0)

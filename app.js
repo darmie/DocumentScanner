@@ -17,6 +17,7 @@ const uuidv4 = require('uuid/v4');
 const spawn = require('child_process').spawn;
 
 const fs = require('fs');
+const jpeg = require('jpeg-js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,7 +53,11 @@ io.on('connection', function (socket) {
       });
     
       py.stdout.on('end', ()=> {
-        io.in(session_key).emit('scanned', {imgUrl: "/images/"+session_key+".jpg"})
+        let image = fs.readFileSync(imgPath)
+        let imageData = jpeg.decode(image, true);
+        io.in(session_key).emit('scanned', imageData)
+        //remove image file
+        fs.unlinkSync(imgPath);
       });
 
     }, err =>{
