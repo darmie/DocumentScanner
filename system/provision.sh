@@ -48,3 +48,4 @@ cd ~
 cd /vagrant
 pip install --upgrade pip
 pip install opencv-contrib-python
+sudo apt-get install -y python-skimage
