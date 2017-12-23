@@ -2,23 +2,36 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-	config.vm.box = "ubuntu/xenial64"
+	#config.vm.box = "ubuntu/xenial64"
+	config.vm.box = "google/gce"
+
+	config.vm.provider :google do |google, override|
+		google.google_project_id = "pract-scanner"
+		google.google_client_email = "537008963677-compute@developer.gserviceaccount.com"
+		google.google_json_key_location = "../pract-scanner-0fcb71ab7a99.json"
+
+		override.ssh.username = "Damilare"
+		override.ssh.private_key_path = "~/.ssh/id_rsa"
+		#override.ssh.private_key_path = "~/.ssh/google_compute_engine"
+
+		google.image = "ubuntu-1604-xenial-v20171212"
+	end	
 	
 
-	config.vm.network "private_network", ip: "192.168.50.100"
+	#config.vm.network "private_network", ip: "192.168.50.100"
 
-	config.vm.provider :virtualbox do |vb|
-		vb.customize ["modifyvm", :id, "--memory", "1024"]
-	end
+	#config.vm.provider :virtualbox do |vb|
+		#vb.customize ["modifyvm", :id, "--memory", "1024"]
+	#end
     #config.vm.synced_folder ".", "/vagrant", type: "smb"
 
-    config.vbguest.iso_path = "http://download.virtualbox.org/virtualbox/5.1.30/VBoxGuestAdditions_5.1.30.iso"
+    #config.vbguest.iso_path = "http://download.virtualbox.org/virtualbox/5.1.30/VBoxGuestAdditions_5.1.30.iso"
     # set auto_update to false, if you do NOT want to check the correct 
     # additions version when booting this machine
-    config.vbguest.auto_update = false
+    #config.vbguest.auto_update = false
     
     # do NOT download the iso file from a webserver
-    config.vbguest.no_remote = true
+    #config.vbguest.no_remote = true
 	config.vm.provision :shell, :path => "system/provision.sh"
 
 end

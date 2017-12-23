@@ -19,6 +19,9 @@ const spawn = require('child_process').spawn;
 const fs = require('fs');
 const jpeg = require('jpeg-js');
 
+const redis = require('socket.io-redis');
+io.adapter(redis({ host: 'localhost', port: 6379 }));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -31,8 +34,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', index);
-server.listen(80);
+app.use('/', index);
+server.listen(8080);
 io.on('connection', function (socket) {
 
   let session_key = uuidv4();
